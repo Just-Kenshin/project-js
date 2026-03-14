@@ -1,0 +1,309 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.container {
+    width: 95%;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+header {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 22px;
+    color: #1a0658;
+    text-decoration: none;
+}
+
+.logo-text small {
+    display: block;
+    font-size: 10px;
+    color: #3c0ac7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    transition: color 0.3s;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #3c0ac7;
+    transition: width 0.3s;
+}
+
+nav a:hover {
+    color: #3c0ac7;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav ul li a i {
+    margin-right: 8px;
+    color: #3c0ac7;
+}
+
+.nav-auth-btn {
+    background: transparent;
+    border: 2px solid #3c0ac7;
+    color: #3c0ac7;
+    padding: 15px 25px !important;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-family: inherit;
+    line-height: 1;
+}
+
+.nav-auth-btn:hover {
+    background: #3c0ac7 !important;
+    color: white !important;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(60, 10, 199, 0.2);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-left: 1px solid #eee;
+    padding-left: 20px;
+}
+
+.detail-page {
+    padding: 40px 0;
+}
+
+.car-header {
+    margin-bottom: 30px;
+}
+
+.car-header h1 {
+    font-size: 32px;
+    color: #1a0658;
+    margin-bottom: 10px;
+}
+
+.car-meta {
+    display: flex;
+    gap: 20px;
+    color: #666;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+}
+
+.login-btn {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.login-btn:hover {
+    color: #3c0ac7;
+}
+
+.main-img-container {
+    width: 100%;
+    height: 450px;
+    background: #eee;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.main-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-group {
+    display: flex;
+    gap: 10px;
+}
+
+.thumb {
+    width: 100px;
+    height: 70px;
+    border-radius: 8px;
+    cursor: pointer;
+    object-fit: cover;
+    opacity: 0.6;
+    transition: 0.3s;
+    border: 2px solid transparent;
+}
+
+.thumb:hover, .thumb.active {
+    opacity: 1;
+    border-color: #3c0ac7;
+}
+
+.price-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.price-label { font-size: 14px; color: #666; }
+.price-value { font-size: 36px; font-weight: 800; color: #3c0ac7; margin: 10px 0; }
+
+.specs-list {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.spec-item i { color: #3c0ac7; margin-right: 8px; }
+
+.loading-placeholder {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@media (max-width: 768px) {
+    .details-grid { grid-template-columns: 1fr; }
+    .main-img-container { height: 300px; }
+}
+
+.rent-now-btn {
+    width: 100%;
+    height: 55px;
+    background: linear-gradient(135deg, #6e42eb 0%, #3c0ac7 100%);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(60, 10, 199, 0.3);
+    margin-top: 15px;
+}
+
+.rent-now-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(60, 10, 199, 0.5);
+}
+
+@media (max-width: 1024px) {
+    .header-inner {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+
+    .header-inner {
+        flex-direction: column;
+        padding: 10px 15px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .user-profile {
+        padding-left: 12px;
+        gap: 8px;
+    }
+
+    .user-welcome {
+        font-size: 12px;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 20px;
+    }
+
+    .logo-text {
+        font-size: 18px;
+    }
+}
