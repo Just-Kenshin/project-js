@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="car-details.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <body>
+        <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        DriveShift
+                        <small>Best prices</small>
+                    </div>
+                </a>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html"><i class="fa-solid fa-car"></i> Browse Cars</a></li>
+                        <li><a href="#how-it-works"><i class="fa-solid fa-circle-info"></i> How it Works</a></li>
+                        <li><a href="#support"><i class="fa-solid fa-headset"></i> Support</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-actions" id="auth-buttons">
+                    <a href="login.html" class="btn-outline">Login</a>
+                    <a href="register.html" class="btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+        <main class="container detail-page">
+        </main>
+
+        <script src="car-details.js"></script>
+    </body>
+    <main class="container detail-page">
+        <div class="car-header">
+            <h1 id="carTitle" class="loading-placeholder" style="width: 350px; height: 40px;"></h1>
+            <div class="car-meta">
+                <span id="carYear" class="loading-placeholder" style="width: 80px; height: 20px;"></span>
+                <span id="carLocation" class="loading-placeholder" style="width: 100px; height: 20px;"></span>
+            </div>
+        </div>
+
+        <div class="details-grid">
+            <div class="gallery-section">
+                <div id="mainImgContainer" class="main-img-container loading-placeholder">
+                    <img id="mainImage" src="" alt="Main Car Image" style="display: none;">
+                </div>
+                <div class="thumbnail-group" id="thumbGroup">
+                    <div class="thumb loading-placeholder"></div>
+                    <div class="thumb loading-placeholder"></div>
+                    <div class="thumb loading-placeholder"></div>
+                </div>
+            </div>
+
+            <div class="info-sidebar">
+                <div class="price-card">
+                    <div class="price-label">დღიური ფასი</div>
+                    <div id="carPrice" class="price-value loading-placeholder"
+                        style="width: 120px; height: 45px; margin: 10px auto;"></div>
+                    <button class="btn-primary rent-now-btn" id="rentBtn">Rent Now</button>
+                </div>
+
+                <div class="specs-list">
+                    <h3>მახასიათებლები</h3>
+                    <div class="spec-item">
+                        <span><i class="fa-solid fa-users"></i> ტევადობა:</span>
+                        <strong id="carCapacity" class="loading-placeholder"
+                            style="width: 60px; height: 20px;"></strong>
+                    </div>
+                    <div class="spec-item">
+                        <span><i class="fa-solid fa-gears"></i> ტრანსმისია:</span>
+                        <strong id="carTrans" class="loading-placeholder" style="width: 80px; height: 20px;"></strong>
+                    </div>
+                    <div class="spec-item">
+                        <span><i class="fa-solid fa-gas-pump"></i> ავზი:</span>
+                        <strong id="carFuel" class="loading-placeholder" style="width: 50px; height: 20px;"></strong>
+                    </div>
+                    <div class="spec-item">
+                        <span><i class="fa-solid fa-phone"></i> მფლობელი:</span>
+                        <strong id="carOwner" class="loading-placeholder" style="width: 110px; height: 20px;"></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="car-details.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="login.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="auth-card">
+        <h2>Sign In</h2>
+        <form onsubmit="signin(event)">
+            <input type="tel" id="tel" placeholder="Phone Number" class="form-control" required>
+            <input type="password" id="password" placeholder="Password" class="form-control" required>
+
+            <button type="submit" class="btn-submit">Sign in</button>
+        </form>
+
+        <div class="card-footer">
+            <p>არ გაქვს ანგარიში? <a href="register.html">რეგისტრაცია</a></p>
+        </div>
+    </div>
+
+    <script>
+        function signin(event) {
+            event.preventDefault();
+
+            const tel = document.getElementById("tel").value;
+            const password = document.getElementById("password").value;
+
+            axios.post("https://rentcar.stepprojects.ge/api/Users/login", {
+                "password": password,
+                "phoneNumber": tel,
+            })
+                .then(function (response) {
+                    const token = response.data.token;
+
+                    localStorage.setItem("token", token);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'წარმატება',
+                        text: 'ავტორიზაცია წარმატებულია!',
+                        confirmButtonColor: '#4f46e5',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = "index.html?token=" + token;
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'შეცდომა',
+                        text: 'მონაცემები არასწორია',
+                        confirmButtonColor: '#4f46e5'
+                    });
+                });
+        }
+    </script>
+</body>
+</html>

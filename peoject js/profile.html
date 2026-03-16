@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="profile.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <section class="profile-section">
+        <div class="profile-card">
+            <div class="profile-sidebar">
+                <div class="avatar-circle"><i class="fas fa-user"></i></div>
+                <h2 id="welcome-msg">Loading...</h2>
+            </div>
+
+            <div class="profile-content">
+                <div class="info-group">
+                    <label>First Name</label>
+                    <div class="info-display"><span id="display-first">---</span></div>
+                </div>
+                <div class="info-group">
+                    <label>Last Name</label>
+                    <div class="info-display"><span id="display-last">---</span></div>
+                </div>
+                <div class="info-group full-width">
+                    <label>Email Address</label>
+                    <div class="info-display"><span id="display-email">---</span></div>
+                </div>
+
+                <div class="profile-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="window.location.href='index.html'" class="btn-outline" style="flex: 1;">Home</button>
+                    <button onclick="window.location.href='add-car.html'" class="add-btn" style="flex: 1.5; background-color: #4f46e5;">+ Post Car</button>
+                    <button id="logout-btn" onclick="logout()" class="add-btn" style="flex: 1; background-color: #ef4444;">Logout</button>
+                </div>
+            </div>
+
+            <div class="history-section-wrapper" style="padding: 20px;">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-history"></i> My Rental History</h3>
+                <div id="history-list" class="history-container">
+                    <p>Loading your history...</p>
+                </div>
+            </div>
+
+            <div class="favorites-section-wrapper" style="padding: 20px; border-top: 1px solid #eee;">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-heart" style="color: #ef4444;"></i> My Favorites</h3>
+                <div id="favorites-list" class="favorites-container">
+                    <p>Loading favorites...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let globalUserPhone = "";
+
+        function getPhoneFromToken(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const payload = JSON.parse(atob(base64));
+                return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone"];
+            } catch (e) {
+                return null;
+            }
+        }
+
+        async function loadUserProfile() {
+            const token = localStorage.getItem('token');
+            if (!token) { window.location.href = "login.html"; return; }
+
+            globalUserPhone = getPhoneFromToken(token);
+            if (!globalUserPhone) { window.location.href = "login.html"; return; }
+
+            try {
+                const response = await axios.get(`https://rentcar.stepprojects.ge/api/Users/${globalUserPhone}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const user = response.data;
+                document.getElementById('display-first').innerText = user.firstName;
+                document.getElementById('display-last').innerText = user.lastName;
+                document.getElementById('display-email').innerText = user.email;
+                document.getElementById('welcome-msg').innerText = "Hello, " + user.firstName;
+
+                loadPurchaseHistory(globalUserPhone, token);
+                loadUserFavorites(globalUserPhone, token);
+            } catch (error) {
+                console.error("Profile API Error:", error);
+            }
+        }
+
+        async function loadUserFavorites(phone, token) {
+            const favoriteContainer = document.getElementById('favorites-list');
+            if (!favoriteContainer) return;
+
+            try {
+                const response = await fetch(`https://rentcar.stepprojects.ge/api/Users/${phone}/favorite-cars`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const favorites = await response.json();
+                    renderFavorites(favorites);
+                }
+            } catch (error) {
+                console.error("Error loading favorites:", error);
+            }
+        }
+
+        function renderFavorites(items) {
+            const container = document.getElementById("favorites-list");
+            container.innerHTML = "";
+            
+            if (!items || items.length === 0) {
+                container.innerHTML = "<p>No favorites found.</p>";
+                return;
+            }
+
+            let html = "";
+            items.forEach((item) => {
+                html += `
+                    <div class="history-card" onclick="window.location.href='car-details.html?id=${item.id}'" style="cursor: pointer;">
+                        <div class="card-left">
+                            <div class="car-icon" style="background-color: #fef2f2;"><i class="fas fa-heart" style="color: #ef4444;"></i></div>
+                            <div class="car-details">
+                                <h4>${item.brand} ${item.model}</h4>
+                                <span>Favorite ID: #${item.id}</span>
+                            </div>
+                        </div>
+                        <div class="card-right">
+                            <div class="price-tag">${item.price} GEL</div>
+                            <div class="status-label" style="background-color: #fef2f2; color: #ef4444;">Saved</div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        async function loadPurchaseHistory(phone, token) {
+            const container = document.getElementById("history-list");
+            try {
+                const response = await fetch(`https://rentcar.stepprojects.ge/Purchase/${phone}`, {
+                    method: "GET",
+                    headers: { 'Authorization': `Bearer ${token}`, 'Accept': '*/*' }
+                });
+
+                if (response.ok) {
+                    const historyData = await response.json();
+                    renderHistory(historyData);
+                }
+            } catch (error) {
+                container.innerHTML = "<p>Failed to load history.</p>";
+            }
+        }
+
+       function renderHistory(items) {
+    const container = document.getElementById("history-list");
+    container.innerHTML = "";
+    
+    if (!items || items.length === 0) {
+        container.innerHTML = "<p>No rental history found.</p>";
+        return;
+    }
+
+    let html = "";
+    items.forEach((item) => {
+        
+        const price = item.pricePaid || "---";
+        
+        const brand = item.carBrand || item.brand || "Car";
+        const model = item.carModel || item.model || "";
+        const carId = item.carId || item.id || "---";
+
+        html += `
+            <div class="history-card">
+                <div class="card-left">
+                    <div class="car-icon"><i class="fas fa-car"></i></div>
+                    <div class="car-details">
+                        <h4>${brand} ${model}</h4>
+                        <span>Order ID: #${carId}</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="price-tag">${price} GEL</div>
+                    <div class="status-label">Confirmed</div>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+         
+        window.logout = function() {
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+        };
+
+        window.onload = loadUserProfile;
+    </script>
+</body>
+
+</html>

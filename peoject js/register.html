@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="register.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+    <div class="auth-card">
+        <h2>Create Account</h2>
+        <form onsubmit="signup(event)">
+            <input type="text" id="firstname" placeholder="First name" class="form-control" required>
+            <input type="text" id="lastname" placeholder="Last name" class="form-control" required>
+            <input type="email" id="email" placeholder="Email" class="form-control" required>
+            <input type="tel" id="phone" placeholder="Phone" class="form-control" required>
+            <input type="text" id="role" placeholder="Role" class="form-control" required>
+            <input type="password" id="password" placeholder="Password" class="form-control" required>
+            
+            <button type="submit" class="btn-submit">Sign up</button>
+        </form>
+
+        <div class="card-footer">
+            <p>უკვე გაქვთ ანგარიში? <a href="login.html">ავტორიზაცია</a></p>
+        </div>
+    </div>
+
+    <script>
+        function signup(event) {
+            event.preventDefault();
+
+            axios.post("https://rentcar.stepprojects.ge/api/Users/register", {
+                "phoneNumber": document.getElementById("phone").value,
+                "password": document.getElementById("password").value,
+                "email": document.getElementById("email").value,
+                "firstName": document.getElementById("firstname").value,
+                "lastName": document.getElementById("lastname").value,
+                "role": document.getElementById("role").value
+            })
+            .then(function(response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'წარმატება',
+                    text: 'რეგისტრაცია წარმატებით დასრულდა!',
+                    confirmButtonColor: '#4f46e5'
+                }).then(() => {
+                    window.location.href = "login.html"; 
+                });
+            })
+            .catch(function(err) {
+                console.error(err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'შეცდომა',
+                    text: 'შეცდომა რეგისტრაციისას.',
+                    confirmButtonColor: '#4f46e5'
+                });
+            });
+        }
+    </script>
+</body>
+</html>

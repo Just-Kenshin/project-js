@@ -1,0 +1,591 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.container {
+    width: 95%;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+header {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 22px;
+    color: #1a0658;
+    text-decoration: none;
+}
+
+.logo-text small {
+    display: block;
+    font-size: 10px;
+    color: #3c0ac7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    transition: color 0.3s;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #3c0ac7;
+    transition: width 0.3s;
+}
+
+nav a:hover {
+    color: #3c0ac7;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+nav ul li a i {
+    margin-right: 8px;
+    color: #3c0ac7;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 1px solid #eee;
+    padding-left: 20px;
+}
+
+.user-welcome {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
+}
+
+.login-btn {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.login-btn:hover {
+    color: #3c0ac7;
+}
+
+.search-hero {
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #1a0658 0%, #0a041c 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    color: #fff;
+}
+
+.search-hero .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.search-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    gap: 30px;
+}
+
+.search-main-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.search-secondary-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    max-width: 900px;
+    justify-content: center;
+}
+
+.search-text {
+    text-align: left;
+}
+
+.search-text h2 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.search-text p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.search-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    width: 100%;
+    max-width: 500px;
+    height: 60px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(60, 10, 199, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+#searchInput {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0 20px 0 55px;
+    font-size: 16px;
+    border-radius: 50px;
+    color: #333;
+}
+
+.search-icon {
+    position: absolute;
+    left: 20px;
+    color: #3c0ac7;
+    pointer-events: none;
+}
+
+.filter-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.filter-group select,
+.filter-group input,
+.search-secondary-row input,
+.search-secondary-row select {
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: 1px solid #e0e0e0;
+    font-size: 14px;
+    height: 45px;
+    outline: none;
+    background: white;
+    flex: 1;
+    min-width: 120px;
+    transition: all 0.3s ease;
+}
+
+.search-secondary-row input:focus,
+.search-secondary-row select:focus {
+    border-color: #3c0ac7;
+    box-shadow: 0 6px 15px rgba(60, 10, 199, 0.2);
+}
+
+#sortBy {
+    border: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #333;
+}
+
+#sortBy:focus {
+    border-color: #3c0ac7;
+    outline: none;
+    box-shadow: 0 6px 15px rgba(60, 10, 199, 0.2);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px 0;
+}
+
+.car-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.car-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.img-container {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+    background-color: #f0f0f0;
+}
+
+.car-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background-color: #eee;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 5;
+    border-radius: 4px;
+    transition: background 0.3s;
+}
+
+.prev {
+    left: 5px;
+}
+
+.next {
+    right: 5px;
+}
+
+.slider-btn:hover {
+    background: #3c0ac7;
+}
+
+.car-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 12px;
+}
+
+.car-body h5 {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #222;
+}
+
+.car-body p {
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.price-text {
+    font-size: 1.2rem;
+    color: #3c0ac7;
+    margin-top: auto;
+}
+
+.btn-primary,
+.add-btn {
+    background: #3c0ac7;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover,
+.add-btn:hover {
+    background: #2a0790;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #3c0ac7;
+    color: #3c0ac7;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    background: #3c0ac7;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(60, 10, 199, 0.2);
+}
+
+.info-section {
+    padding: 80px 0;
+}
+
+.bg-light {
+    background: linear-gradient(135deg, #1a0658 0%, #0a041c 100%);
+    color: #ffffff;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    color: #3c0ac7;
+    margin-bottom: 50px;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    text-align: center;
+}
+
+.step-card {
+    background: #fff;
+    padding: 40px 20px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    transition: transform 0.3s;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+}
+
+.step-icon {
+    font-size: 40px;
+    color: #3c0ac7;
+    margin-bottom: 20px;
+}
+
+.support-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.contact-item i {
+    color: #3c0ac7;
+    font-size: 24px;
+}
+
+@media (max-width: 1024px) {
+    .header-inner {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .search-content,
+    .search-main-row,
+    .search-secondary-row {
+        grid-template-columns: 1fr;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .search-text {
+        text-align: center;
+    }
+
+    .search-input-group {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        display: none;
+    }
+
+    .header-inner {
+        flex-direction: column;
+        padding: 10px 15px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .user-profile {
+        padding-left: 12px;
+        gap: 8px;
+    }
+
+    .user-welcome {
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .search-hero {
+        padding: 40px 15px;
+    }
+
+    .search-content h2 {
+        font-size: 1.8rem;
+    }
+
+    .search-secondary-row input,
+    .search-secondary-row select {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .row,
+    .steps-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .support-flex {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .support-text h2 {
+        text-align: center !important;
+    }
+
+    .contact-item {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 20px;
+    }
+
+    .logo-text {
+        font-size: 18px;
+    }
+
+    .car-card {
+        margin: 0 10px;
+    }
+
+    .btn-outline,
+    .btn-primary,
+    .login-btn {
+        width: 100%;
+        font-size: 12px;
+    }
+}
+
+.car-body .btn-outline, .car-body .add-btn {
+    padding: 10px 5px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.fav-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+}
+
+/* Gray by default */
+.fav-btn i {
+    color: #cbd5e0;
+    transition: color 0.3s ease;
+}
+
+/* Red when button is active */
+.fav-btn.active i {
+    color: #ef4444 !important;
+}
+.fav-btn:hover {
+    transform: scale(1.1);
+}

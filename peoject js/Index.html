@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        DriveShift
+                        <small>Best prices</small>
+                    </div>
+                </a>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html"><i class="fa-solid fa-car"></i> Browse Cars</a></li>
+                        <li><a href="#how-it-works"><i class="fa-solid fa-circle-info"></i> How it Works</a></li>
+                        <li><a href="#support"><i class="fa-solid fa-headset"></i> Support</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-actions" id="auth-buttons">
+                    <a href="login.html" class="btn-outline">Login</a>
+                    <a href="register.html" class="btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section id="how-it-works" class="info-section">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h3>1. Choose a Car</h3>
+                    <p>Browse our extensive fleet and find the perfect ride for your trip.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <h3>2. Pick a Date</h3>
+                    <p>Select your pickup and return dates with our easy-to-use calendar.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><i class="fa-solid fa-key"></i></div>
+                    <h3>3. Drive Away</h3>
+                    <p>Confirm your booking and pick up your keys. It's that simple!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+
+        <section class="search-hero">
+    <div class="container">
+        <div class="search-main-row">
+            <div class="search-text">
+                <h2>Find Your Perfect Ride</h2>
+                <p>Search car by brand or model</p>
+            </div>
+
+            <div class="search-input-group">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search by brand (e.g. BMW, Mercedes)...">
+            </div>
+
+            <div class="filter-group">
+                <select id="brandFilter">
+                    <option value="">All Brands</option>
+                    </select>
+                <select id="cityFilter">
+                    <option value="">All Cities</option>
+                    </select>
+            </div>
+        </div>
+
+        <div class="search-secondary-row">
+            <input type="number" id="minYear" placeholder="წლიდან">
+            <input type="number" id="maxYear" placeholder="წლამდე">
+            <select id="capacityFilter">
+                <option value="">ნებისმიერი ტევადობა</option>
+                <option value="2">2 ადგილიანი</option>
+                <option value="4">4 ადგილიანი</option>
+                <option value="5">5 ადგილიანი</option>
+            </select>
+            <select id="sortBy">
+                <option value="">დალაგება</option>
+                <option value="priceLow">ფასი: ზრდადობით</option>
+                <option value="priceHigh">ფასი: კლებადობით</option>
+            </select>
+        </div>
+    </div>
+</section>
+        <div class="row" id="carRow">
+        </div>
+    </main>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <button id="loadMoreBtn" class="btn-outline">Load More Cars</button>
+    </div>
+
+    <section id="support" class="info-section bg-light">
+        <div class="container">
+            <div class="support-flex">
+                <div class="support-text">
+                    <h2 class="section-title" style="text-align: left;">Need Help?</h2>
+                    <p>Our support team is available 24/7 to assist you with your rental, insurance, or any road
+                        emergencies.</p>
+                    <div class="contact-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+995 555 12 34 56</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>support@driveshift.ge</span>
+                    </div>
+                </div>
+                <div class="support-action">
+                    <a href="#how-it-works" class="btn-primary">How it Works</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+
+</html>

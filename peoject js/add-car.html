@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="add-car.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h4>ავტომობილის დამატება</h4>
+            <a href="index.html" class="btn-back">მთავარზე დაბრუნება</a>
+        </div>
+        <div class="card-body">
+            <form onsubmit="addCar(event)">
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="brand">Brand</label>
+                        <input type="text" class="form-control" id="brand" required placeholder="მაგ: Toyota">
+                    </div>
+                    <div class="form-group">
+                        <label for="model">Model</label>
+                        <input type="text" class="form-control" id="model" required placeholder="მაგ: Camry">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="year">Year</label>
+                        <input type="number" class="form-control" id="year" required placeholder="2023">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price (GEL)</label>
+                        <input type="number" step="0.01" class="form-control" id="price" required placeholder="0.00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="capacity">Capacity</label>
+                        <input type="number" class="form-control" id="capacity" required placeholder="მაგ: 5">
+                    </div>
+                    <div class="form-group">
+                        <label for="fuelCapacity">Fuel Capacity</label>
+                        <input type="number" class="form-control" id="fuelCapacity" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transmission">Transmission</label>
+                        <select class="form-select" id="transmission" required>
+                            <option value="">აირჩიეთ...</option>
+                            <option value="Automatic">Automatic</option>
+                            <option value="Manual">Manual</option>
+                            <option value="Tiptronic">Tiptronic</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" required placeholder="მაგ: თბილისი">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="createdBy">თქვენი სახელი</label>
+                        <input type="text" class="form-control" id="createdBy" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" required placeholder="example@mail.com">
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>ატვირთეთ სურათები (მაქს. 3)</label>
+                        <div style="display: flex; gap: 10px; margin-top: 5px;">
+                            <input type="file" id="image1" class="form-control" accept="image/*">
+                            <input type="file" id="image2" class="form-control" accept="image/*">
+                            <input type="file" id="image3" class="form-control" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="reset" class="btn btn-secondary">გასუფთავება</button>
+                    <button type="submit" class="btn btn-primary">ავტომობილის დამატება</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function addCar(event) {
+        event.preventDefault();
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            Swal.fire('Error', 'გთხოვთ გაიაროთ ავტორიზაცია!', 'error');
+            return;
+        }
+
+        const formData = new FormData();
+
+        // Mapping Form Fields
+        formData.append('Brand', document.getElementById("brand").value);
+        formData.append('Model', document.getElementById("model").value);
+        formData.append('Year', parseInt(document.getElementById("year").value));
+        formData.append('Price', parseFloat(document.getElementById("price").value));
+        formData.append('City', document.getElementById("city").value);
+        formData.append('Transmission', document.getElementById("transmission").value);
+        formData.append('Capacity', parseInt(document.getElementById("capacity").value));
+        formData.append('FuelCapacity', parseInt(document.getElementById("fuelCapacity").value));
+        formData.append('CreatedBy', document.getElementById("createdBy").value);
+        formData.append('CreatedByEmail', document.getElementById("email").value);
+        
+        // Coordinates
+        formData.append('Latitude', '41.7151');
+        formData.append('Longitude', '44.8271');
+
+        // Handling Files
+        const fileInput1 = document.getElementById("image1").files[0];
+        const fileInput2 = document.getElementById("image2").files[0];
+        const fileInput3 = document.getElementById("image3").files[0];
+
+        if (fileInput1) formData.append('Image1', fileInput1);
+        if (fileInput2) formData.append('Image2', fileInput2);
+        if (fileInput3) formData.append('Image3', fileInput3);
+
+        const userPhone = parseJwt(token);
+        if (userPhone) {
+            formData.append('OwnerPhoneNumber', userPhone);
+        }
+
+        try {
+            Swal.fire({ 
+                title: 'მიმდინარეობს გაგზავნა...', 
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading() 
+            });
+
+            await axios.post("https://rentcar.stepprojects.ge/api/Car", formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'accept': 'text/plain',
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            await Swal.fire('წარმატება!', 'მანქანა წარმატებით დაემატა!', 'success');
+            window.location.href = "index.html";
+
+        } catch (error) {
+            console.error("Error Detail:", error.response?.data);
+            const errorMsg = error.response?.data?.message || "სერვერმა მონაცემები ვერ მიიღო.";
+            Swal.fire('შეცდომა', errorMsg, 'error');
+        }
+    }
+
+    function parseJwt(token) {
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(atob(base64));
+            return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone"];
+        } catch (e) {
+            return null;
+        }
+    }
+</script>
+
+</body>
+</html>
