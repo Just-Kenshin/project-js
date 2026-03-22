@@ -27,11 +27,14 @@
 
     const rentBtn = document.getElementById("rentBtn");
     if (rentBtn) {
-        rentBtn.addEventListener("click", () => {
+        rentBtn.onclick = (e) => {
+            e.preventDefault(); 
+            if (rentBtn.disabled) return;
+
             const priceValue = document.getElementById("carPrice").innerText;
             const price = parseFloat(priceValue.replace(/[^0-9.]/g, ""));
             makePurchase(carId, price);
-        });
+        };
     }
 });
 
