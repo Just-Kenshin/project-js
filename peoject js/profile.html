@@ -11,50 +11,65 @@
 </head>
 
 <body>
-    <section class="profile-section">
-        <div class="profile-card">
+    <div class="profile-section">
+        
+        <section class="profile-card">
             <div class="profile-sidebar">
-                <div class="avatar-circle"><i class="fas fa-user"></i></div>
+                <div class="avatar-circle">
+                    <i class="fas fa-user"></i>
+                </div>
                 <h2 id="welcome-msg">Loading...</h2>
             </div>
 
             <div class="profile-content">
                 <div class="info-group">
                     <label>First Name</label>
-                    <div class="info-display"><span id="display-first">---</span></div>
+                    <div class="info-display" id="display-first">---</div>
                 </div>
                 <div class="info-group">
                     <label>Last Name</label>
-                    <div class="info-display"><span id="display-last">---</span></div>
+                    <div class="info-display" id="display-last">---</div>
                 </div>
                 <div class="info-group full-width">
                     <label>Email Address</label>
-                    <div class="info-display"><span id="display-email">---</span></div>
+                    <div class="info-display" id="display-email">---</div>
                 </div>
 
-                <div class="profile-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button onclick="window.location.href='index.html'" class="btn-outline" style="flex: 1;">Home</button>
-                    <button onclick="window.location.href='add-car.html'" class="add-btn" style="flex: 1.5; background-color: #4f46e5;">+ Post Car</button>
-                    <button id="logout-btn" onclick="logout()" class="add-btn" style="flex: 1; background-color: #ef4444;">Logout</button>
-                </div>
+                <div class="profile-actions">
+    <button onclick="window.location.href='index.html'" class="btn-outline">
+        Home
+    </button>
+    
+    <button onclick="window.location.href='add-car.html'" class="add-btn post-btn-style">
+        + Post Car
+    </button>
+    
+    <button id="logout-btn" onclick="logout()" class="add-btn logout-btn-style">
+        Logout
+    </button>
+</div>
             </div>
+        </section>
 
-            <div class="history-section-wrapper" style="padding: 20px;">
-                <h3 style="margin-bottom: 20px;"><i class="fas fa-history"></i> My Rental History</h3>
-                <div id="history-list" class="history-container">
-                    <p>Loading your history...</p>
-                </div>
-            </div>
-
-            <div class="favorites-section-wrapper" style="padding: 20px; border-top: 1px solid #eee;">
-                <h3 style="margin-bottom: 20px;"><i class="fas fa-heart" style="color: #ef4444;"></i> My Favorites</h3>
-                <div id="favorites-list" class="favorites-container">
-                    <p>Loading favorites...</p>
-                </div>
+        <div class="history-section-wrapper">
+            <h3 class="section-header">
+                <i class="fas fa-history"></i> My Rental History
+            </h3>
+            <div id="history-list" class="history-container">
+                <p class="loading-text">Loading your history...</p>
             </div>
         </div>
-    </section>
 
+        <div class="favorites-section-wrapper">
+            <h3 class="section-header">
+                <i class="fas fa-heart" style="color: #ef4444;"></i> My Favorites
+            </h3>
+            <div id="favorites-list" class="favorites-container">
+                <p class="loading-text">Loading favorites...</p>
+            </div>
+        </div>
+
+    </div>
     <script>
         let globalUserPhone = "";
 
@@ -112,35 +127,38 @@
             }
         }
 
-        function renderFavorites(items) {
-            const container = document.getElementById("favorites-list");
-            container.innerHTML = "";
-            
-            if (!items || items.length === 0) {
-                container.innerHTML = "<p>No favorites found.</p>";
-                return;
-            }
+       function renderFavorites(items) {
+    const container = document.getElementById("favorites-list");
+    container.innerHTML = items.length === 0 ? "<p class='no-history'>No favorites yet.</p>" : "";
 
-            let html = "";
-            items.forEach((item) => {
-                html += `
-                    <div class="history-card" onclick="window.location.href='car-details.html?id=${item.id}'" style="cursor: pointer;">
-                        <div class="card-left">
-                            <div class="car-icon" style="background-color: #fef2f2;"><i class="fas fa-heart" style="color: #ef4444;"></i></div>
-                            <div class="car-details">
-                                <h4>${item.brand} ${item.model}</h4>
-                                <span>Favorite ID: #${item.id}</span>
-                            </div>
-                        </div>
-                        <div class="card-right">
-                            <div class="price-tag">${item.price} GEL</div>
-                            <div class="status-label" style="background-color: #fef2f2; color: #ef4444;">Saved</div>
-                        </div>
+    items.forEach((item) => {
+        const brand = item.brand || "Car";
+        const model = item.model || "";
+        const city = item.city || "Location N/A";
+        const year = item.year || item.productionYear || "";
+
+        container.innerHTML += `
+            <div class="history-card" onclick="window.location.href='car-details.html?id=${item.id}'" style="cursor: pointer;">
+                <div class="card-left">
+                    <div class="car-icon" style="background-color: #fef2f2;">
+                        <i class="fas fa-heart" style="color: #ef4444;"></i>
                     </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
+                    <div class="car-details">
+                        <h4>${brand} ${model} ${year}</h4>
+                        <div class="location-info">
+                            <i class="fas fa-location-dot"></i> ${city}
+                        </div>
+                        <span>ID: #${item.id}</span>
+                    </div>
+                </div>
+                <div class="card-right">
+                    <div class="price-tag">${item.price} GEL</div>
+                    <div class="status-label" style="background-color: #fef2f2; color: #ef4444;">Saved</div>
+                </div>
+            </div>
+        `;
+    });
+}
 
         async function loadPurchaseHistory(phone, token) {
             const container = document.getElementById("history-list");
@@ -161,29 +179,25 @@
 
        function renderHistory(items) {
     const container = document.getElementById("history-list");
-    container.innerHTML = "";
-    
-    if (!items || items.length === 0) {
-        container.innerHTML = "<p>No rental history found.</p>";
-        return;
-    }
+    container.innerHTML = items.length === 0 ? "<p class='no-history'>No rentals yet.</p>" : "";
 
-    let html = "";
     items.forEach((item) => {
-        
-        const price = item.pricePaid || "---";
-        
-        const brand = item.carBrand || item.brand || "Car";
-        const model = item.carModel || item.model || "";
-        const carId = item.carId || item.id || "---";
+        const brand = item.carBrand || "Car";
+        const model = item.carModel || "";
+        const city = item.city || "Location N/A";
+        const price = item.pricePaid || "0";
+        const carId = item.carId || "---";
 
-        html += `
+        container.innerHTML += `
             <div class="history-card">
                 <div class="card-left">
                     <div class="car-icon"><i class="fas fa-car"></i></div>
                     <div class="car-details">
                         <h4>${brand} ${model}</h4>
-                        <span>Order ID: #${carId}</span>
+                        <div class="location-info">
+                            <i class="fas fa-location-dot"></i> ${city}
+                        </div>
+                        <span>Order: #${carId}</span>
                     </div>
                 </div>
                 <div class="card-right">
@@ -193,9 +207,7 @@
             </div>
         `;
     });
-    container.innerHTML = html;
 }
-         
         window.logout = function() {
             localStorage.removeItem("token");
             window.location.href = "login.html";
